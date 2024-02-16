@@ -6,6 +6,7 @@
 # Ignore compiled binaries and object files
 bin/
 obj/
+Migrations/
 
 # Ignore folder config file
 Desktop.ini
