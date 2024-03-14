@@ -29,11 +29,11 @@ namespace Commander
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var server = Configuration["DBServer"] ?? "localhost";
-            var port = Configuration["DBPort"] ?? "1433";
-            var database = Configuration["Database"] ?? "CommanderDB";
-            var user = Configuration["DBUser"] ?? "sa";
-            var password = Configuration["DBPassword"] ?? "Pa$$w0rd";
+            var server = Configuration["DBServer"];
+            var port = Configuration["DBPort"];
+            var database = Configuration["Database"];
+            var user = Configuration["DBUser"];
+            var password = Configuration["DBPassword"];
 
             // Console.WriteLine($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}");
 
