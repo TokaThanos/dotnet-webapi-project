@@ -29,8 +29,19 @@ namespace Commander
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var server = Configuration["DBServer"] ?? "localhost";
+            var port = Configuration["DBPort"] ?? "1433";
+            var database = Configuration["Database"] ?? "CommanderDB";
+            var user = Configuration["DBUser"] ?? "sa";
+            var password = Configuration["DBPassword"] ?? "Pa$$w0rd";
+
+            // Console.WriteLine($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}");
+
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
-                (Configuration.GetConnectionString("CommanderConnection")));
+                ($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}"));
+
+            // services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
+            //     (Configuration.GetConnectionString("CommanderConnection")));
 
             services.AddControllers().AddNewtonsoftJson(s => {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -52,6 +63,13 @@ namespace Commander
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Apply migrations using a scope
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<CommanderContext>();
+                context.Database.Migrate();
+            }
 
             app.UseAuthorization();
 
