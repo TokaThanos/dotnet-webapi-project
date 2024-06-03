@@ -2,6 +2,7 @@
 
 # Ignore Visual Studio Code settings
 .vscode/
+.vs/
 
 # Ignore compiled binaries and object files
 bin/
