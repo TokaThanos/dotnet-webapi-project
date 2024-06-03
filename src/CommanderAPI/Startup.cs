@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,11 +38,11 @@ namespace Commander
 
             // Console.WriteLine($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}");
 
-            services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
-                ($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}"));
-
             // services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
-            //     (Configuration.GetConnectionString("CommanderConnection")));
+            //     ($"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}"));
+
+            services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
+                (Configuration.GetConnectionString("CommanderConnection")));
 
             services.AddControllers().AddNewtonsoftJson(s => {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
