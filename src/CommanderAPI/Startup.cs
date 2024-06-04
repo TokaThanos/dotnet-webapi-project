@@ -51,11 +51,20 @@ namespace Commander
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(swagger => 
+            {
+                swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CommaderAPI V1");
+            });
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
